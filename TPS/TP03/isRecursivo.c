@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 bool vowelChecker (char word[], int i) { // funcao para verificar se a string possui somente vogais
-  if (i < 0) return true;
+  if (i < 0) return true; // condição de parada, quando i for menor que zero significa que acabou a string, então retorna true
   if (word[i] == 'a' || word[i] == 'A' || word[i] == 'e' || word[i] == 'E' || word[i] == 'i' || word[i] == 'I' || word[i] == 'o' || word[i] == 'O' || word[i] == 'u' || word[i] == 'U') { // compara a posicao da string com as vogais
     return vowelChecker (word, i - 1);
   } else {
@@ -13,7 +13,7 @@ bool vowelChecker (char word[], int i) { // funcao para verificar se a string po
 }
 
 bool consoantChecker (char word[], int i) { // funcao para verificar se a string possui somente consoantes
-  if (i < 0) return true;
+  if (i < 0) return true; // condição de parada, quando i for menor que zero, significa que acabou a string, então retorna true
   if (word[i] != 'a' && word[i] != 'A' && word[i] != 'e' && word[i] != 'E' && word[i] != 'i' && word[i] != 'I' && word[i] != 'o' && word[i] != 'O' && word[i] != 'u' && word[i] != 'U' // compara se a posicao da string nao possui vogais, nem numeros, nem sinais, e pontos
   && word[i] != '1' && word[i] != '2' && word[i] != '3' && word[i] != '4' && word[i] != '5' && word[i] != '6' && word[i] != '7' && word[i] != '8' && word[i] != '9' && word[i] != '0' && word[i] != '.' && word[i] != '-' && word[i] != '+') { 
     return consoantChecker (word, i - 1);  
@@ -23,7 +23,7 @@ bool consoantChecker (char word[], int i) { // funcao para verificar se a string
 }
 
 bool wholeChecker (char word[], int i) { // funcao para verificar se a string so possui somente numeros inteiros
-  if (i < 0) return true;
+  if (i < 0) return true; // condição de parada, quando i for menor que zero significa que acabou a string, então retorna true
   if (word[i] == '1' || word[i] == '2' || word[i] == '3' || word[i] == '4' || word[i] == '5' || word[i] == '6' || word[i] == '7' || word[i] == '8' || word[i] == '9' || word[i] == '0') { // compara se a posicao da string possui apenas numeros
     return wholeChecker (word, i - 1);
   } else {
@@ -32,7 +32,7 @@ bool wholeChecker (char word[], int i) { // funcao para verificar se a string so
 }
 
 bool realsChecker (char word[], int i, int pointCounter) { // funcao para verificar se a string possui somente numeros reais
-  if (i < 0 && pointCounter <= 1) return true;
+  if (i < 0 && pointCounter <= 1) return true; // condição de parada, quando i for menor que zero significa que acabou a string, e se pointCounter for menor ou igual a um, significa que é um numero real, então retorna true
   if ((word[i] >= '0' && word[i] <= '9') || (word[i] == '.' || word[i] == ',')) { //compara o caracter, se é um numero, um ponto ou uma virgula
     if (word[i] == '.' || word[i] == ',') { // se for um ponto ou uma virgula, adiciona um ao contador
       pointCounter++; 
