@@ -37,11 +37,11 @@ class Game {
 
     // Lê uma linha do CSV e preenche os campos do jogo
     public void readLine(String line) {
-        String[] fields = splitCsvFields(line);  // separa os 14 campos manualmente
-        assignValues(fields);                    // atribui valores convertidos
+        String[] fields = splitCsvFields(line);  // separa os campos manualmente
+        assignValues(fields);                    // converte e atribui valores
     }
 
-    // Faz a separação manual dos campos do CSV
+    // Divide a linha CSV em campos considerando aspas e colchetes
     private String[] splitCsvFields(String line) {
         String[] fields = new String[14];
         int fieldIndex = 0;
@@ -53,7 +53,7 @@ class Game {
             char c = line.charAt(i);
 
             if (c == '"') {
-                insideQuotes = !insideQuotes;
+                insideQuotes = !insideQuotes; // alterna quando entra/sai de aspas
             } else if (c == '[') {
                 insideBrackets = true;
                 current += c;
@@ -70,10 +70,10 @@ class Game {
         }
 
         fields[fieldIndex] = current;
-        return fields; // retorna todos os campos já separados
+        return fields; // resultado final da divisão manual dos campos CSV
     }
 
-    // Atribui valores convertidos a cada atributo
+    // Converte os campos do CSV e armazena nos atributos do objeto
     private void assignValues(String[] f) {
         id = parseInt(f[0]);
         name = f[1];
@@ -91,76 +91,65 @@ class Game {
         tags = parseList(f[13]);
     }
 
+    // Converte uma string para número inteiro, removendo caracteres não numéricos
     private int parseInt(String s) {
-        if (isEmpty(s)) {
-            return 0; // retorna 0 se o campo estiver vazio
-        }
+        if (isEmpty(s)) return 0;
         try {
-            return Integer.parseInt(s.replaceAll("[^0-9]", "")); // retorna valor numérico limpo
+            return Integer.parseInt(s.replaceAll("[^0-9]", ""));
         } catch (Exception e) {
-            return 0; // retorna 0 se houver erro na conversão
+            return 0;
         }
     }
 
+    // Converte string para inteiro, com valor padrão em caso de erro
     private int parseIntOrDefault(String s, int def) {
-        if (isEmpty(s)) {
-            return def; // retorna valor padrão se vazio
-        }
+        if (isEmpty(s)) return def;
         try {
-            return Integer.parseInt(s.replaceAll("[^0-9]", "")); // retorna valor numérico limpo
+            return Integer.parseInt(s.replaceAll("[^0-9]", ""));
         } catch (Exception e) {
-            return def; // retorna valor padrão se falhar
+            return def;
         }
     }
 
+    // Converte preço textual para float (0 se for "Free to Play")
     private float parsePrice(String s) {
-        if (isEmpty(s) || s.equalsIgnoreCase("Free to Play")) {
-            return 0.0f; // retorna 0 se for gratuito ou vazio
-        }
+        if (isEmpty(s) || s.equalsIgnoreCase("Free to Play")) return 0.0f;
         try {
-            return Float.parseFloat(s.replace(",", ".")); // retorna valor float do preço
+            return Float.parseFloat(s.replace(",", "."));
         } catch (Exception e) {
-            return 0.0f; // retorna 0 se falhar
+            return 0.0f;
         }
     }
 
+    // Converte nota do usuário em float (-1 se for "tbd" ou inválido)
     private float parseUserScore(String s) {
-        if (isEmpty(s) || s.equalsIgnoreCase("tbd")) {
-            return -1.0f; // retorna -1 se vazio ou “tbd”
-        }
+        if (isEmpty(s) || s.equalsIgnoreCase("tbd")) return -1.0f;
         try {
-            return Float.parseFloat(s.replace(",", ".")); // retorna nota do usuário
+            return Float.parseFloat(s.replace(",", "."));
         } catch (Exception e) {
-            return -1.0f; // retorna -1 se erro
+            return -1.0f;
         }
     }
 
+    // Converte um campo com colchetes (lista) em vetor de strings
     private String[] parseList(String s) {
-        if (isEmpty(s)) {
-            return new String[0]; // retorna lista vazia
-        }
-
+        if (isEmpty(s)) return new String[0];
         s = s.replaceAll("[\\[\\]'\"]", "");
-
-        if (s.equals("")) {
-            return new String[0]; // retorna lista vazia se conteúdo for vazio
-        }
-
+        if (s.equals("")) return new String[0];
         String[] parts = s.split(",");
         trimArray(parts);
-        return parts; // retorna lista já formatada
+        return parts;
     }
 
+    // Converte datas textuais (ex: "Oct 18, 2018") para "18/10/2018"
     private String normalizeDate(String s) {
-        if (isEmpty(s)) {
-            return "01/01/2000"; // retorna data padrão se vazia
-        }
-
+        if (isEmpty(s)) return "01/01/2000";
         s = s.replace("\"", "");
         String[] parts = s.split(" ");
-        return formatDate(parts); // retorna data formatada corretamente
+        return formatDate(parts);
     }
 
+    // Monta a data formatada conforme o número do mês e estrutura do texto
     private String formatDate(String[] parts) {
         try {
             if (parts.length == 3) {
@@ -168,20 +157,20 @@ class Game {
                 String month = getMonth(parts[0]);
                 String year = parts[2];
                 return String.format("%02d/%02d/%s",
-                        Integer.parseInt(day), Integer.parseInt(month), year); // retorna data completa
+                        Integer.parseInt(day), Integer.parseInt(month), year);
             } else if (parts.length == 2) {
                 String month = getMonth(parts[0]);
                 String year = parts[1];
-                return String.format("01/%02d/%s",
-                        Integer.parseInt(month), year); // retorna data sem dia (assume 01)
+                return String.format("01/%02d/%s", Integer.parseInt(month), year);
             } else {
-                return "01/01/2000"; // retorna padrão se formato inválido
+                return "01/01/2000";
             }
         } catch (Exception e) {
-            return "01/01/2000"; // retorna padrão se erro
+            return "01/01/2000";
         }
     }
 
+    // Retorna o número do mês correspondente ao nome abreviado
     private String getMonth(String month) {
         month = month.toLowerCase();
         String prefix = month.substring(0, 3);
@@ -198,25 +187,22 @@ class Game {
         if (prefix.equals("oct")) return "10";
         if (prefix.equals("nov")) return "11";
         if (prefix.equals("dec")) return "12";
-        return "1"; // retorna janeiro por padrão
+        return "1";
     }
 
+    // Verifica se uma string é nula ou vazia
     private boolean isEmpty(String s) {
-        if (s == null) {
-            return true; // retorna verdadeiro se nulo
-        }
-        if (s.trim().equals("")) {
-            return true; // retorna verdadeiro se só tiver espaços
-        }
-        return false; // retorna falso caso contrário
+        return s == null || s.trim().equals("");
     }
 
+    // Remove espaços extras no início e fim de cada elemento do array
     private void trimArray(String[] arr) {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = arr[i].trim();
         }
     }
 
+    // Monta a saída formatada no padrão exigido
     public String toString() {
         String output = "=> " + id + " ## " + name + " ## " + releaseDate + " ## " +
                 estimatedOwners + " ## " + price + " ## ";
@@ -230,27 +216,28 @@ class Game {
         output += " ## " + formatList(tags);
         output += " ##";
 
-        return output; // retorna string formatada completa do jogo
+        return output;
     }
 
+    // Formata um vetor de strings no formato "[A, B, C]"
     private String formatList(String[] arr) {
         String result = "[";
         for (int i = 0; i < arr.length; i++) {
             result += arr[i].trim();
-            if (i < arr.length - 1) {
-                result += ", ";
-            }
+            if (i < arr.length - 1) result += ", ";
         }
         result += "]";
-        return result; // retorna lista formatada com colchetes
+        return result;
     }
 
+    // Controla a leitura de IDs e impressão dos jogos correspondentes
     public static void read() throws Exception {
         int[] ids = readInputIds();                 // lê IDs digitados
         Game[] games = loadGames("/tmp/games.csv"); // carrega dados do CSV
-        printSelectedGames(ids, games);             // imprime os jogos encontrados
+        printSelectedGames(ids, games);             // exibe os jogos encontrados
     }
 
+    // Lê os IDs informados até encontrar "FIM"
     private static int[] readInputIds() {
         Scanner in = new Scanner(System.in);
         int[] ids = new int[500];
@@ -266,9 +253,10 @@ class Game {
 
         int[] result = new int[count];
         System.arraycopy(ids, 0, result, 0, count);
-        return result; // retorna apenas IDs válidos lidos
+        return result;
     }
 
+    // Lê o arquivo CSV e armazena os jogos em um vetor
     private static Game[] loadGames(String path) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line = br.readLine(); // ignora cabeçalho
@@ -286,33 +274,27 @@ class Game {
 
         Game[] result = new Game[total];
         System.arraycopy(games, 0, result, 0, total);
-        return result; // retorna apenas os jogos carregados
+        return result;
     }
-    
-    // Percorre todos os IDs informados na entrada e imprime os jogos correspondentes
+
+    // Percorre todos os IDs informados e imprime os jogos correspondentes
     private static void printSelectedGames(int[] ids, Game[] games) {
         for (int i = 0; i < ids.length; i++) {
-            // Busca o jogo com o ID atual dentro do array de jogos
             Game found = findGameById(ids[i], games);
-
-            // Se o jogo for encontrado, imprime na tela
-            if (found != null) {
-                System.out.println(found);
-            }
+            if (found != null) System.out.println(found);
         }
     }
 
-    // Procura um jogo pelo ID dentro do array e retorna o objeto encontrado
+    // Procura um jogo pelo ID e retorna o objeto correspondente
     private static Game findGameById(int id, Game[] games) {
         for (int i = 0; i < games.length; i++) {
-            if (games[i].id == id) {
-                return games[i]; // retorna o jogo correspondente
-            }
+            if (games[i].id == id) return games[i];
         }
-        return null; // retorna null se não encontrar
+        return null;
     }
 
+    // Método principal: inicia a execução chamando apenas o método read()
     public static void main(String[] args) throws Exception {
-        read(); // inicia o processo de leitura
+        read();
     }
 }
