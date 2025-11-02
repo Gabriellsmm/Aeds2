@@ -97,6 +97,7 @@ class mergeSort {
     length = in.nextInt();
     int[] array = new int[length];
 
+    // chamada de metodos
     fillArray (array); // chama o metodo que preenche o array
     mergeSort (array, 0, array.length - 1); // chama o metodo que faz o heapsort
     printArray (array); // chama o metodo que printa o array
