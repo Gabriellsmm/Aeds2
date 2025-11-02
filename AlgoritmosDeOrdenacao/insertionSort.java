@@ -1,24 +1,22 @@
 import java.util.*;
 
-class bubbleSort {
-  
-  public static void bubbleSort (int[] array) { // metodo bubblesort que faz a ordenação 
-  
-    for (int i = 0; i < array.length - 1; i++) { // garante que percorra todo o vetor
-      for (int j = 0; j < array.length - i - 1; j++) { // faz as comparações e as trocas, se necessario
-        if (array[j] > array[j + 1]) { // se a proxima posição for menor que a anterior, faz a troca
-          swap (array, j, j + 1);
-        }
+class insertionSort {
+
+  public static void insertionSort (int[] array) { // metodo de ordenação do insertionSort
+
+    for (int i = 1; i < array.length; i++) { // i começa em 1 porque em tese, a posição 0 já está ordenada
+
+      int tmp = array[i]; // armazena o valor que vai ser comparado
+      int j = i - 1; // j é o valor anterior
+
+      while (j >= 0 && array[j] > tmp) { // enquanto ouverem posições a frente de j e a anterior for maior que a atual
+        array[j + 1] = array[j]; // faz a troca
+        j--;
       }
-    }  
 
-  }
+      array[j + 1] = tmp; // quando j vale -1, ou o numero anterior não é maior que o proximo, finaliza a troca colocando o valor de tmp em seu lugar
 
-  public static void swap (int[] array, int i, int j) { // metodo que faz as trocas
-
-    int tmp = array[i];
-    array[i] = array[j];
-    array[j] = tmp;
+    }
 
   }
 
@@ -32,7 +30,7 @@ class bubbleSort {
       array[i] = in.nextInt();
     }
 
-    in.close ();
+    in.close();
 
   }
 
@@ -58,7 +56,7 @@ class bubbleSort {
     int[] array = new int[length];
 
     fillArray (array); // chama o metodo que preenche o array
-    bubbleSort (array); // chama o metodo que faz o heapsort
+    insertionSort (array); // chama o metodo que faz o heapsort
     printArray (array); // chama o metodo que printa o array
 
     in.close();

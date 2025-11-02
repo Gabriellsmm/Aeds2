@@ -72,6 +72,8 @@ class mergeSort {
       array[i] = in.nextInt();
     }
 
+    in.close().
+
   }
 
   public static void printArray (int[] array) { // metodo que printa o array
