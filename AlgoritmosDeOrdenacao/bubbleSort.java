@@ -6,9 +6,11 @@ class bubbleSort {
   
     for (int i = 0; i < array.length - 1; i++) { // garante que percorra todo o vetor
       for (int j = 0; j < array.length - i - 1; j++) { // faz as comparações e as trocas, se necessario
+                                                       //
         if (array[j] > array[j + 1]) { // se a proxima posição for menor que a anterior, faz a troca
           swap (array, j, j + 1);
         }
+        
       }
     }  
 
