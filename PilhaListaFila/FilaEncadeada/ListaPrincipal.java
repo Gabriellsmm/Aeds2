@@ -14,11 +14,19 @@ class ListaPrincipal {
       lista.inserirFim (2);
       lista.inserir (6, 1);
       lista.inserir (7, 0);
-      lista.inserir (1, 8);
+      lista.inserirInicio (1);
       lista.inserir (3, 5);
       lista.inserirFim (9);
 
       System.out.println("Após Inserções: ");
+      lista.mostrarLista ();
+
+      lista.removerInicio ();
+      lista.removerInicio ();
+      lista.removerFim ();
+      lista.remover (4);
+
+      System.out.println("Após Remoções: ");
       lista.mostrarLista ();
 
     } catch (Exception erro) {
