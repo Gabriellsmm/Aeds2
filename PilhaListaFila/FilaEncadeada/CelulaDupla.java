@@ -1,10 +1,10 @@
 // construção de uma celula duplamente encadeada
 
-public class CelulaDupla {
+class CelulaDupla {
 
   // declaração dos elementos
   public int elemento;
-  public CelulaDupla proxima;
+  public CelulaDupla prox;
   public CelulaDupla anterior;
 
   // chama o outro construtor
@@ -15,10 +15,10 @@ public class CelulaDupla {
   }
 
   // construtor completo
-  public CelulaDupla (int elemento, CelulaDupla proxima, CelulaDupla anterior) {
+  public CelulaDupla (int elemento, CelulaDupla prox, CelulaDupla anterior) {
 
     this.elemento = elemento;
-    this.proxima = proxima;
+    this.prox = prox;
     this.anterior = anterior;
 
   }
