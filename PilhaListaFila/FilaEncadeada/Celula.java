@@ -1,10 +1,10 @@
 // criação de uma celula simples encadeada
 
-public class Celula {
+class Celula {
   
   // define os elementos presentes na celula
   public int elemento;
-  public Celula proxima;
+  public Celula prox;
 
   // chama o outro construtor
   public Celula () {
@@ -17,7 +17,7 @@ public class Celula {
   public Celula (int elemento) {
 
     this.elemento = elemento;
-    this.proxima = null;
+    this.prox = null;
 
   }
 
