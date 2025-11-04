@@ -84,7 +84,7 @@ class Lista {
 
 
 
-  public void remover (int posicao) throws Exception {
+  public void remover (int posicao) throws Exception { // metodo de remover em qualquer posição existente do array;
 
     int tamanho = tamanho ();
 
@@ -126,7 +126,7 @@ class Lista {
     } 
       
     Celula i;
-    for (i = primeiro; i != ultimo; i = i.prox);
+    for (i = primeiro; i.prox != ultimo; i = i.prox);
     ultimo = i;
     ultimo.prox = null;
 
@@ -146,8 +146,10 @@ class Lista {
   public void mostrarLista () { // metodo para mostar a lista
 
     for (Celula i = primeiro.prox; i != null; i = i.prox) {
-      System.out.print(i.prox + " ");
+      System.out.print(i.elemento + " ");
     }
+
+    System.out.println();
 
   }
 
